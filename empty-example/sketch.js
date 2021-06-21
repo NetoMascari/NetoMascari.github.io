@@ -50,7 +50,7 @@ function draw() {
     background("black");
     frame *= 1.01;
     frameRate(frame);
-    x = random(windowWidth);
-    y = random(windowHeight);
+    x = random(0 + d/2, windowWidth - d/2);
+    y = random(0 + d/2, windowHeight - d/2);
     circle(x, y, d);
 }
