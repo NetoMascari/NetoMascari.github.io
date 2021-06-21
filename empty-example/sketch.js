@@ -29,9 +29,8 @@ function setup() {
 function mousePressed() {
     var distance = dist(mouseX, mouseY, x, y);
     if (distance < d/2) {
-        background("green");
         contador++;
-        circle(x, y, d);
+        background("green");
     } else {
         background("red");
         miss++;
