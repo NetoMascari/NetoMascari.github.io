@@ -12,7 +12,7 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
     background(0);
     circle(250, 250, d);
-    mode = parseInt(prompt('1 - Fácil\n2 - Médio\n3-Difícil\nInforme a dificuldade:'));
+    mode = parseInt(prompt('1 - Fácil\n2 - Médio\n3 - Difícil\nInforme a dificuldade:'));
     if (mode == 1) {
         frame = 0.3;
         d = 100;
