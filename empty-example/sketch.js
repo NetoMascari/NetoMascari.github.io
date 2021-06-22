@@ -31,19 +31,27 @@ function mousePressed() {
     if (distance < d/2) {
         contador++;
         background("green");
+        textSize(150);
+        fill(255, 255, 255, 50);
+        text(contador, width/2, height/2);
+        fill("white");
     } else {
         background("red");
         miss++;
         contador--;
         if (miss <= 3) {
-            console.log("You made a mistake " + miss + " time");
+            // console.log("You made a mistake " + miss + " time");
         }
+        textSize(150);
+        fill(255, 255, 255, 100);
+        text(contador, width/2, height/2);
+        fill("white");
     }
-    if (miss >= 3) {
-        console.log("You lost!");
-    } else {
-        console.log(contador);
-    }
+    // if (miss >= 3) {
+    //     console.log("You lost!");
+    // } else {
+    //     console.log(contador);
+    // }
 }
 
 function draw() {
@@ -53,4 +61,8 @@ function draw() {
     x = random(0 + d/2, windowWidth - d/2);
     y = random(0 + d/2, windowHeight - d/2);
     circle(x, y, d);
+    textSize(150);
+    fill(255, 255, 255, 50);
+    text(contador, width/2, height/2);
+    fill("white");
 }
