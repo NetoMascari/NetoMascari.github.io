@@ -104,9 +104,11 @@ function Jogadores() {
     function sistemaPonto() {
         if (posX > width - raio) {
             pontosJ1++;
+            velocidade = 5;
             circleInicial();
         } else if (posX - raio < 0) {
             pontosJ2++;
+            velocidade = 5;
             circleInicial();
         }
         // Desenha Placar
@@ -122,8 +124,10 @@ function Jogadores() {
     function impactoRaquete() {
         if (((posX <= 50 + 15 + raio) && (posX >= 50 + raio)) && (posY <= j1Y + 50 + raio) && (posY >= j1Y - 50 - raio)) { //Raquete esquerda
             velocidade = -velocidade;
+            velocidadeY = random(velocidade, velocidadeY);
         } else if (((posX >= largura - (50 + 15 + raio)) && (posX <= largura - (50 + raio))) && (posY <= j2Y + 50 + raio) && (posY >= j2Y - 50 - raio)) { //Raquete direita
             velocidade = -velocidade;
+            velocidadeY = random(velocidade, velocidadeY);
         }
     }
 }
