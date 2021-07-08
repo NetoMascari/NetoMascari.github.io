@@ -1,71 +1,129 @@
-var contador = 0;
-var x = 250;
-var y = 250;
-var d = 75;
-var miss = 0;
+//Dimensões da Tela
+var largura = 800;
+var altura = 600;
 
-var mode = 2;
+//Declaração de variáveis do jogo
 
-var frame;
+var alDefLado; // (número) Aleatório Define Lado
+
+var posX = largura/2, posY = altura/2;
+
+var raio = 15;
+var velocidade = 5;
+var velocidadeY = 5;
+
+var velocidadeJogador = 7;
+
+var j1Y = altura/2;
+var j2Y = altura/2;
+
+var pontosJ1 = 0;
+var pontosJ2 = 0;
+
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
-    background(0);
-    circle(250, 250, d);
-    mode = parseInt(prompt('1 - Fácil\n2 - Médio\n3 - Difícil\nInforme a dificuldade:'));
-    if (mode == 1) {
-        frame = 0.3;
-        d = 100;
-    } else if (mode == 2) {
-        frame = 0.4;
-        d = 75;
-    }
-    else {
-        frame = 0.5;
-        d = 50;
-    }
+    createCanvas(largura, altura);
+    alDefLado = round(random(1));
 }
 
-function mousePressed() {
-    var distance = dist(mouseX, mouseY, x, y);
-    if (distance < d/2) {
-        contador++;
-        background("green");
-        textSize(150);
-        textAlign(CENTER);
-        fill(255, 255, 255, 50);
-        text(contador, width/2, height/2);
-        fill("white");
-    } else {
-        background("red");
-        miss++;
-        contador--;
-        if (miss <= 3) {
-            // console.log("You made a mistake " + miss + " time");
-        }
-        textSize(150);
-        textAlign(CENTER);
-        fill(255, 255, 255, 100);
-        text(contador, width/2, height/2);
-        fill("white");
+// Desenha o circulo no centro com lado aleatório
+function circleInicial() {
+    posX = largura/2;
+    posY = altura/2;
+    circle(posX, posY, raio*2);
+    alDefLado = round(random(1)); 
+}
+
+function desenhaRede() {
+    fill(255, 75)
+    for (var i = 0; i <= 600; i += 22.5) {
+        rect(largura/2, i, 10, 15);
     }
-    // if (miss >= 3) {
-    //     console.log("You lost!");
-    // } else {
-    //     console.log(contador);
-    // }
+    fill(255);
 }
 
 function draw() {
-    background("black");
-    frame *= 1.01;
-    frameRate(frame);
-    x = random(0 + d/2, windowWidth - d/2);
-    y = random(0 + d/2, windowHeight - d/2);
-    circle(x, y, d);
-    textSize(150);
-    textAlign(CENTER);
-    fill(255, 255, 255, 50);
-    text(contador, width/2, height/2);
-    fill("white");
+    background(0);
+    desenhaRede();
+    ladoInicial();
+    circle(posX, posY, raio*2);
+    Jogadores();
+
+    posY += velocidadeY;
+    if ((posY >= height-raio) || (posY <= raio)){
+        velocidadeY = -velocidadeY;
+    }
+
+}
+
+// Escolhe um lado aleatoriamente para começar
+function ladoInicial() {
+    if (alDefLado == 0) { //Lado direito começa
+        posX += velocidade;
+    } else if (alDefLado == 1) { //Lado esquerdo começa
+        posX -= velocidade;
+    }
+}
+
+// Funcionalidades dos Jogadores
+function Jogadores() {
+
+    jogador1();
+    jogador2();
+    sistemaPonto();
+    impactoRaquete();
+
+    // Cria Jogador 1
+    function jogador1() {
+        
+        rect(50, j1Y - 50, 15, 100); // Desenha Jogador 1
+
+        // Movimentação do Jogador 1
+        if (keyIsDown(87) && j1Y - 50>= 0) {
+            j1Y -= velocidadeJogador;
+        }
+        if (keyIsDown(83) && j1Y + 50 <= height) {
+            j1Y += velocidadeJogador;
+        }
+    }
+    // Cria Jogador 2
+    function jogador2() {
+        
+        rect(width - 65, j2Y - 50, 15, 100); // Desenha Jogador 2
+
+        // Movimentação do Jogador 2
+        if (keyIsDown(UP_ARROW) && j2Y - 50>= 0) {
+            j2Y -= velocidadeJogador;
+        }
+        if (keyIsDown(DOWN_ARROW) && j2Y + 50 <= height) {
+            j2Y += velocidadeJogador;
+        }
+    }
+    
+    // Sistema de Pontuação e Placar
+    function sistemaPonto() {
+        if (posX > width - raio) {
+            pontosJ1++;
+            circleInicial();
+        } else if (posX - raio < 0) {
+            pontosJ2++;
+            circleInicial();
+        }
+        // Desenha Placar
+        textAlign(CENTER);
+        textSize(64);
+        fill(255, 75);
+        text(pontosJ1, 250, 75);
+        text(pontosJ2, width - 250, 75);
+        fill(255);
+    }
+
+    // Impacto do circulo nas raquetes
+    function impactoRaquete() {
+        if (((posX <= 50 + 15 + raio) && (posX >= 50 + raio)) && (posY <= j1Y + 50 + raio) && (posY >= j1Y - 50 - raio)) { //Raquete esquerda
+            velocidade = -velocidade;
+        } else if (((posX >= largura - (50 + 15 + raio)) && (posX <= largura - (50 + raio))) && (posY <= j2Y + 50 + raio) && (posY >= j2Y - 50 - raio)) { //Raquete direita
+            velocidade = -velocidade;
+        }
+    }
 }
