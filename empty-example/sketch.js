@@ -123,9 +123,11 @@ function Jogadores() {
     // Impacto do circulo nas raquetes
     function impactoRaquete() {
         if (((posX <= 50 + 15 + raio) && (posX >= 50 + raio)) && (posY <= j1Y + 50 + raio) && (posY >= j1Y - 50 - raio)) { //Raquete esquerda
+            posX = 50 + 15 + raio;
             velocidade = -velocidade;
             velocidadeY = random(velocidade, velocidadeY);
         } else if (((posX >= largura - (50 + 15 + raio)) && (posX <= largura - (50 + raio))) && (posY <= j2Y + 50 + raio) && (posY >= j2Y - 50 - raio)) { //Raquete direita
+            posX = largura - (50 + 15 + raio);
             velocidade = -velocidade;
             velocidadeY = random(velocidade, velocidadeY);
         }
